@@ -1,10 +1,11 @@
 "use client"
 import { useState, useRef, useEffect } from "react";
+import { openai } from "@/lib/openRouter";
 
 type Message = {
     id: number;
     text: string;
-    sender: "user" | "bot";
+    sender: "user" | "assistant";
 };
 
 export default function Home() {
@@ -34,12 +35,23 @@ export default function Home() {
         setInputText("");
         setIsLoading(true);
 
+        const completion = await openai.chat.completions.create({
+            model: 'deepseek/deepseek-r1-distill-llama-8b',
+            messages: [
+                {
+                    role: userMessage.sender,
+                    content: userMessage.text,
+                },
+            ],
+        });
+        console.log(completion.choices[0].message);
+
         // Simulate bot response (replace this with your API call)
         setTimeout(() => {
             const botMessage: Message = {
                 id: Date.now() + 1,
-                text: "This is a response from the bot.",
-                sender: "bot",
+                text: completion.choices[0].message.content || "Server is busy !!",
+                sender: "assistant",
             };
             setMessages((prev) => [...prev, botMessage]);
             setIsLoading(false);
@@ -85,7 +97,7 @@ export default function Home() {
                     {isLoading && (
                         <div className="flex justify-start">
                             <div className="max-w-[70%] p-3 rounded-lg bg-gray-700 text-white">
-                                Typing...
+                                Processing...
                             </div>
                         </div>
                     )}
@@ -97,14 +109,14 @@ export default function Home() {
             <div className="p-4 border-t border-gray-700 bg-gray-900">
                 <div className="w-full max-w-2xl mx-auto">
                     <div className="flex items-center space-x-2">
-            <textarea
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Type your message..."
-                className="flex-1 p-2 bg-gray-800 text-white rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-                rows={1}
-            />
+                        <textarea
+                            value={inputText}
+                            onChange={(e) => setInputText(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            placeholder="Type your message..."
+                            className="flex-1 p-2 bg-gray-800 text-white rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            rows={1}
+                        />
                         <button
                             onClick={handleSendMessage}
                             disabled={isLoading}
