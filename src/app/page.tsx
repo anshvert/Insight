@@ -1,6 +1,7 @@
 "use client"
 import { useState, useRef, useEffect } from "react";
 import { openai } from "@/lib/openRouter";
+import { Textarea } from "@/components/ui/textarea"
 
 type Message = {
     id: number;
@@ -36,7 +37,7 @@ export default function Home() {
         setIsLoading(true);
 
         const completion = await openai.chat.completions.create({
-            model: 'deepseek/deepseek-r1-distill-llama-8b',
+            model: 'openai/gpt-3.5-turbo',
             messages: [
                 {
                     role: userMessage.sender,
@@ -117,6 +118,7 @@ export default function Home() {
                             className="flex-1 p-2 bg-gray-800 text-white rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                             rows={1}
                         />
+                        <Textarea/>
                         <button
                             onClick={handleSendMessage}
                             disabled={isLoading}

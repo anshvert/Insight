@@ -3,7 +3,7 @@ import OpenAI from 'openai';
 const apiKey = "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"
 
 export const openai = new OpenAI({
-    baseURL: " http://localhost:6666/https://openrouter.ai/api/v1",
+    baseURL: "https://openrouter.ai/api/v1",
     apiKey: apiKey,
     defaultHeaders: {
         'HTTP-Referer': 'Whale.AI',
@@ -14,7 +14,7 @@ export const openai = new OpenAI({
 
 // async function main() {
 //     const completion = await openai.chat.completions.create({
-//         model: 'deepseek/deepseek-r1-distill-llama-8b',
+//         model: 'openai/gpt-3.5-turbo',
 //         messages: [
 //             {
 //                 role: 'user',
