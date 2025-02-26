@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 
-const apiKey = "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"
+const apiKey = "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"
 
 export const openai = new OpenAI({
     baseURL: "https://openrouter.ai/api/v1",
