@@ -15,18 +15,16 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    // Auto-scroll to the bottom when messages change
     useEffect(() => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [messages]);
 
-    // Handle sending a message
     const handleSendMessage = async () => {
+        console.log("IN handle send")
         if (!inputText.trim()) return;
 
-        // Add user message to the chat
         const userMessage: Message = {
             id: Date.now(),
             text: inputText,
@@ -45,9 +43,8 @@ export default function Home() {
                 },
             ],
         });
-        console.log(completion.choices[0].message);
+        // console.log(completion.choices[0].message);
 
-        // Simulate bot response (replace this with your API call)
         setTimeout(() => {
             const botMessage: Message = {
                 id: Date.now() + 1,
@@ -59,23 +56,13 @@ export default function Home() {
         }, 1000);
     };
 
-    // Handle Enter key press
-    const handleKeyPress = (e: React.KeyboardEvent) => {
-        if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            handleSendMessage();
-        }
-    };
-
     return (
-        <div className="flex flex-col h-screen bg-gray-900 text-white">
-            {/* Chat Header */}
-            <header className="p-4 border-b border-gray-700 text-center">
-                <h1 className="text-2xl font-bold">Whale.AI</h1>
+        <div className="flex flex-col h-screen bg-background text-white">
+            <header className="p-4 text-center">
+                <h1 className="text-2xl font-bold">Insight</h1>
             </header>
 
-            {/* Chat Messages (Centered horizontally, aligned to top vertically) */}
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex-1 overflow-y-auto p-4 bg-background">
                 <div className="w-full max-w-2xl mx-auto space-y-4">
                     {messages.map((message) => (
                         <div
@@ -106,26 +93,10 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* Chat Input (Fixed at the bottom) */}
-            <div className="p-4 border-t border-gray-700 bg-gray-900">
+            <div className="p-4 bg-background">
                 <div className="w-full max-w-2xl mx-auto">
                     <div className="flex items-center space-x-2">
-                        <textarea
-                            value={inputText}
-                            onChange={(e) => setInputText(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                            placeholder="Type your message..."
-                            className="flex-1 p-2 bg-gray-800 text-white rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            rows={1}
-                        />
-                        <Textarea/>
-                        <button
-                            onClick={handleSendMessage}
-                            disabled={isLoading}
-                            className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-gray-600 disabled:cursor-not-allowed"
-                        >
-                            Send
-                        </button>
+                        <Textarea onSend={handleSendMessage} setInputText={setInputText} />
                     </div>
                 </div>
             </div>
