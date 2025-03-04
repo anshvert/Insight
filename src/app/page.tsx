@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import { openai } from "@/lib/openRouter";
 import { Textarea } from "@/components/ui/textarea"
-import {getSession, SignOut} from "@/app/actions";
+import { getSession, SignOut } from "@/app/actions";
 import { User } from "next-auth";
 import { redirect } from "next/navigation";
 

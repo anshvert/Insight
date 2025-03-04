@@ -18,6 +18,17 @@ export const {
                     response_type: 'code',
                 }
             }
+        }),
+        GitHubProvider({
+            clientId: nextConfig?.env?.githubProviderId,
+            clientSecret: nextConfig?.env?.githubProviderSecret,
+            authorization: {
+                params: {
+                    prompt: 'consent',
+                    access_type: 'offline',
+                    response_type: 'code',
+                }
+            }
         })
     ]
 })
