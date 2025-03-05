@@ -14,7 +14,6 @@ const Textarea = React.forwardRef<
 
     // Auto-resize function
     const handleInput = React.useCallback(() => {
-        console.log("in Handle input")
         const textarea = textareaRef.current;
         if (!textarea) return;
 

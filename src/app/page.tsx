@@ -2,6 +2,9 @@
 import { useState, useRef, useEffect } from "react";
 import { openai } from "@/lib/openRouter";
 import { Textarea } from "@/components/ui/textarea"
+import { getSession, SignOut } from "@/app/actions";
+import { User } from "next-auth";
+import { redirect } from "next/navigation";
 
 type Message = {
     id: number;
@@ -13,6 +16,8 @@ export default function Home() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputText, setInputText] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [userInfo, setUserInfo] = useState<User | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -20,6 +25,27 @@ export default function Home() {
             messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [messages]);
+
+    useEffect(() => {
+        const getSessionInfo = async () => {
+            const session = await getSession()
+            if (session && session.user) {
+                setUserInfo(session.user)
+                setIsLoggedIn(true)
+            }
+        }
+        getSessionInfo()
+    }, []);
+
+    const handleSignIn = () => {
+        redirect("/login")
+    }
+
+    const handleSignOut = () => {
+        setUserInfo(null);
+        setIsLoggedIn(false);
+        SignOut()
+    }
 
     const handleSendMessage = async () => {
         if (!inputText.trim()) return;
@@ -55,8 +81,27 @@ export default function Home() {
 
     return (
         <div className="flex flex-col h-screen bg-background text-white">
-            <header className="p-4 text-center">
-                <h1 className="text-2xl font-bold">Insight</h1>
+            <header className="p-4 border-b border-gray-700 relative flex items-center">
+                <h1 className="text-2xl font-bold absolute left-1/2 transform -translate-x-1/2">
+                    Insight
+                </h1>
+                <div className="ml-auto">
+                    {isLoggedIn ? (
+                        <img
+                            src={userInfo?.image || undefined}
+                            alt={`${userInfo?.name}`}
+                            className="w-10 h-10 rounded-full cursor-pointer"
+                            onClick={handleSignOut}
+                        />
+                    ) : (
+                        <button
+                            onClick={handleSignIn}
+                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                        >
+                            Sign In
+                        </button>
+                    )}
+                </div>
             </header>
 
             <div className="flex-1 overflow-y-auto p-4 bg-background">
@@ -86,7 +131,7 @@ export default function Home() {
                             </div>
                         </div>
                     )}
-                    <div ref={messagesEndRef} />
+                    <div ref={messagesEndRef}/>
                 </div>
             </div>
 
