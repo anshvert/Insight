@@ -22,7 +22,6 @@ export default function Home() {
     }, [messages]);
 
     const handleSendMessage = async () => {
-        console.log("IN handle send")
         if (!inputText.trim()) return;
 
         const userMessage: Message = {
@@ -43,8 +42,6 @@ export default function Home() {
                 },
             ],
         });
-        // console.log(completion.choices[0].message);
-
         setTimeout(() => {
             const botMessage: Message = {
                 id: Date.now() + 1,
@@ -96,7 +93,7 @@ export default function Home() {
             <div className="p-4 bg-background">
                 <div className="w-full max-w-2xl mx-auto">
                     <div className="flex items-center space-x-2">
-                        <Textarea onSend={handleSendMessage} setInputText={setInputText} />
+                        <Textarea onSend={handleSendMessage} inputText={inputText} setInputText={setInputText} />
                     </div>
                 </div>
             </div>

@@ -4,8 +4,8 @@ import {ChangeEvent} from "react";
 
 const Textarea = React.forwardRef<
     HTMLTextAreaElement,
-    React.ComponentProps<"textarea"> & { onSend?: () => void, setInputText?: React.Dispatch<React.SetStateAction<string>> }
->(({ className, onSend, setInputText, ...props }, ref) => {
+    React.ComponentProps<"textarea"> & { onSend?: () => void, setInputText?: React.Dispatch<React.SetStateAction<string>>, inputText?: string }
+>(({ className, onSend, setInputText, inputText, ...props }, ref) => {
     const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
     const [height, setHeight] = React.useState<number>(60); // Initial height
     const maxHeight = 200; // Maximum height before scrolling
@@ -74,6 +74,7 @@ const Textarea = React.forwardRef<
                 rows={1}
                 onInput={handleInput}
                 onKeyDown={handleKeyDown}
+                value={inputText}
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setInputText!(e.target.value)}
                 style={{
                     minHeight: '60px',
