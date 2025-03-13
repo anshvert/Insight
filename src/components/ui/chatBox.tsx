@@ -1,8 +1,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import {ChangeEvent} from "react";
+import { ChangeEvent } from "react";
 
-const Textarea = React.forwardRef<
+const ChatBox = React.forwardRef<
     HTMLTextAreaElement,
     React.ComponentProps<"textarea"> & { onSend?: () => void, setInputText?: React.Dispatch<React.SetStateAction<string>>, inputText?: string }
 >(({ className, onSend, setInputText, inputText, ...props }, ref) => {
@@ -33,6 +33,9 @@ const Textarea = React.forwardRef<
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter' && onSend) {
+            if (e.shiftKey) {
+                return
+            }
             e.preventDefault();
             onSend();
         }
@@ -51,13 +54,6 @@ const Textarea = React.forwardRef<
         }
     }, [handleInput]);
 
-    const handleKeyPress = (e: React.KeyboardEvent) => {
-        if (e.key === "Enter" && !e.shiftKey) {
-            e.preventDefault();
-            if (onSend) onSend()
-        }
-    };
-
     return (
         <div className="relative w-full">
             <textarea
@@ -69,7 +65,7 @@ const Textarea = React.forwardRef<
                     className
                 )}
                 ref={textareaRef}
-                placeholder="Ask me anything..."
+                placeholder="Ask Insight anything..."
                 rows={1}
                 onInput={handleInput}
                 onKeyDown={handleKeyDown}
@@ -106,6 +102,6 @@ const Textarea = React.forwardRef<
         </div>
     );
 });
-Textarea.displayName = "Textarea";
+ChatBox.displayName = "Textarea";
 
-export { Textarea };
+export { ChatBox };
