@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { getSession, SignOut } from "@/app/actions";
 import { User } from "next-auth";
 import { redirect } from "next/navigation";
+import { createBulkChats, getChats } from "@/app/db/chats";
 
 type Message = {
     id: number;
@@ -32,7 +33,22 @@ export default function Home() {
             if (session && session.user) {
                 setUserInfo(session.user)
                 setIsLoggedIn(true)
+                if (session.user.email) {
+                    await getUserChats(session.user.email)
+                }
             }
+        }
+        const getUserChats = async (email: string) => {
+            const chats = await getChats(email)
+            let messageChats: Message[] = []
+            for (let chat of chats) {
+                messageChats.push({
+                    id: chat.id,
+                    text: chat.message,
+                    sender: chat.is_bot ? 'assistant' : 'user'
+                })
+            }
+            setMessages(messageChats)
         }
         getSessionInfo()
     }, []);
@@ -44,6 +60,7 @@ export default function Home() {
     const handleSignOut = () => {
         setUserInfo(null);
         setIsLoggedIn(false);
+        setMessages([]);
         SignOut()
     }
 
@@ -68,15 +85,25 @@ export default function Home() {
                 },
             ],
         });
-        setTimeout(() => {
-            const botMessage: Message = {
-                id: Date.now() + 1,
-                text: completion.choices[0].message.content || "Server is busy !!",
-                sender: "assistant",
-            };
-            setMessages((prev) => [...prev, botMessage]);
-            setIsLoading(false);
-        }, 1000);
+        const botMessage: Message = {
+            id: Date.now() + 1,
+            text: completion.choices[0].message.content || "Server is busy !!",
+            sender: "assistant",
+        };
+        setMessages((prev) => [...prev, botMessage]);
+        setIsLoading(false);
+        await createBulkChats([
+            {
+                user_email: userInfo?.email as string,
+                isBot: false,
+                message: userMessage.text,
+            },
+            {
+                user_email: userInfo?.email as string,
+                isBot: true,
+                message: botMessage.text,
+            }
+        ])
     };
 
     return (
@@ -138,7 +165,7 @@ export default function Home() {
             <div className="p-4 bg-background">
                 <div className="w-full max-w-2xl mx-auto">
                     <div className="flex items-center space-x-2">
-                        <Textarea onSend={handleSendMessage} setInputText={setInputText}/>
+                        <Textarea onSend={handleSendMessage} inputText={inputText} setInputText={setInputText} />
                     </div>
                 </div>
             </div>
