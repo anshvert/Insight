@@ -1,17 +1,25 @@
 "use client"
 import { useState, useRef, useEffect } from "react";
 import { openai } from "@/lib/openRouter";
-import { Textarea } from "@/components/ui/textarea"
+import { ChatBox } from "@/components/ui/chatBox"
 import { getSession, SignOut } from "@/app/actions";
 import { User } from "next-auth";
 import { redirect } from "next/navigation";
 import { createBulkChats, getChats } from "@/app/db/chats";
+import ModelSelector from "@/components/ui/ModelSelector";
+import { getModels } from "@/app/db/models";
 
 type Message = {
-    id: number;
-    text: string;
+    id: number
+    text: string
     sender: "user" | "assistant";
 };
+
+export type Model = {
+    name: string
+    display_name: string
+    isAvailable?: boolean
+}
 
 export default function Home() {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -19,6 +27,8 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [userInfo, setUserInfo] = useState<User | null>(null);
+    const [aiModels, setAiModels] = useState<Model[]>([]);
+    const [currentModel, setCurrentModel] = useState<Model | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -36,6 +46,7 @@ export default function Home() {
                 if (session.user.email) {
                     await getUserChats(session.user.email)
                 }
+                await getAIModels()
             }
         }
         const getUserChats = async (email: string) => {
@@ -49,6 +60,11 @@ export default function Home() {
                 })
             }
             setMessages(messageChats)
+        }
+        const getAIModels = async () => {
+            const models = await getModels()
+            setAiModels(models)
+            setCurrentModel(models[0])
         }
         getSessionInfo()
     }, []);
@@ -75,9 +91,9 @@ export default function Home() {
         setMessages((prev) => [...prev, userMessage]);
         setInputText("");
         setIsLoading(true);
-
+        console.log(currentModel)
         const completion = await openai.chat.completions.create({
-            model: 'openai/gpt-3.5-turbo',
+            model: currentModel?.name as string,
             messages: [
                 {
                     role: userMessage.sender,
@@ -104,7 +120,12 @@ export default function Home() {
                 message: botMessage.text,
             }
         ])
-    };
+    }
+
+    const handleModelChange = (model: Model) => {
+        setCurrentModel(model)
+        // setModelName()
+    }
 
     return (
         <div className="flex flex-col h-screen bg-background text-white">
@@ -132,7 +153,7 @@ export default function Home() {
             </header>
 
             <div className="flex-1 overflow-y-auto p-4 bg-background">
-                <div className="w-full max-w-2xl mx-auto space-y-4">
+                <div className="w-full max-w-3xl mx-auto space-y-4">
                     {messages.map((message) => (
                         <div
                             key={message.id}
@@ -161,11 +182,15 @@ export default function Home() {
                     <div ref={messagesEndRef}/>
                 </div>
             </div>
-
             <div className="p-4 bg-background">
-                <div className="w-full max-w-2xl mx-auto">
+                <div className="w-full max-w-3xl mx-auto">
                     <div className="flex items-center space-x-2">
-                        <Textarea onSend={handleSendMessage} inputText={inputText} setInputText={setInputText} />
+                        <ModelSelector
+                            currentModel={currentModel}
+                            onModelChange={handleModelChange}
+                            models={aiModels}
+                        />
+                        <ChatBox onSend={handleSendMessage} inputText={inputText} setInputText={setInputText} />
                     </div>
                 </div>
             </div>
