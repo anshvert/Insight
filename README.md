@@ -1,8 +1,9 @@
 # Insight - Your Personalized LLM Interface 🚀
 
-![Insight Banner](screenshots/insight-banner.png)
+![Insight](https://github.com/user-attachments/assets/b7161c4b-adb2-424a-a710-1b36b0f155d7)
 
-**Insight** is a sleek, modern LLM interface where users can select AI models tailored to their needs, with premium models unlocked via a secure payment system. Built for practice and future scalability, Insight combines a user-friendly chat experience with a paywall for advanced features.
+
+**Insight** is a sleek, modern LLM interface where users can select AI models tailored to their needs, with premium models unlocked via a secure payment system. Built for practice and future scalability.
 
 ---
 
@@ -10,7 +11,7 @@
 
 - **Model Selection**: Choose from a variety of AI models to suit your needs, with a dropdown selector.
 - **Paywall for Premium Models**: Access advanced models (e.g., Gemini 2.0) with a premium subscription, featuring a lock icon and "Buy Premium" section.
-- **Secure Payment System**: Integrated with PhonePe (sandbox) for seamless payments to unlock premium features.
+- **Secure Payment System**: Integrated with Payment Gateway for seamless payments to unlock premium features.
 - **Responsive Design**: Works beautifully on desktop and mobile with Tailwind CSS.
 - **Chat Interface**: Clean and intuitive chat UI to interact with your chosen AI model.
 
@@ -33,24 +34,18 @@
 
 ## 🎥 Demo
 
-![Insight Demo](screenshots/demo.gif)
-
-Interact with AI models, select premium ones, and upgrade via the payment page—all in one seamless experience.
+Head to https://insight-beta-flax.vercel.app/ to Interact with AI models, select premium ones, and upgrade via the payment page—all in one seamless experience.
 
 ---
 
 ## 📸 Screenshots
 
 ### Chat Interface
-![Chat Interface](screenshots/chat-interface.png)
+![image](https://github.com/user-attachments/assets/fea967c5-3800-406c-a652-724945a636fc)
 The main chat interface where users interact with their chosen AI model.
 
-### Model Selector with Paywall
-![Model Selector](screenshots/model-selector.png)
-Select your AI model, with premium models locked behind a paywall for non-premium users.
-
 ### Payment Page
-![Payment Page](screenshots/payment-page.png)
+![image](https://github.com/user-attachments/assets/7e96407f-dbc8-4be6-9e53-439025192341)
 A sleek payment page to upgrade to premium, featuring the Insight logo and a dynamic form.
 
 ---
@@ -96,13 +91,10 @@ A sleek payment page to upgrade to premium, featuring the Insight logo and a dyn
 
 Insight is just getting started! Here’s what’s on the horizon:
 
-- **Go Live**: Deploy to production with real PhonePe credentials for secure, live payments.
-- **User Accounts**: Implement user authentication and subscription management using Supabase to track premium users seamlessly.
 - **More AI Models**: Expand the model library with cutting-edge LLMs and enhance the chat experience with richer interactions.
-- **Landing Page**: Build a stunning landing page to market Insight and attract users, complete with demos and testimonials.
 - **Analytics Dashboard**: Add usage analytics for users to track their interactions and model performance.
 
-Got ideas? Let me know in the [issues](https://github.com/your-username/insight/issues) section!
+Got ideas? Let me know in the [issues](https://github.com/anshvert/insight/issues) section!
 
 ## 📜 License
 
