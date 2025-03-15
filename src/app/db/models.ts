@@ -12,7 +12,7 @@ export async function addModel(name: string, isAvailable: boolean = true) {
 export async function getModels() {
     const { data, error } = await supabase
         .from('Models')
-        .select('name, display_name')
+        .select('name, display_name, premium')
     if (error) throw error
     return data
 }
