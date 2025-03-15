@@ -9,10 +9,15 @@ export async function POST(req: any) {
     try {
         const searchParams = req.nextUrl.searchParams
         const merchantTransactionId = searchParams.get('id')
+
         const keyIndex = 1
         const string = `/pg/v1/status/${merchant_id}/${merchantTransactionId}` + salt_key
         const sha256 = crypto.createHash('sha256').update(string).digest('hex')
         const checkSum = sha256 + '###' + keyIndex
+
+        const host = req.headers.get('host') || 'localhost:3000'
+        const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+        const baseUrl = `${protocol}://${host}`;
 
         const options = {
             method: 'GET',
@@ -27,11 +32,11 @@ export async function POST(req: any) {
 
         const response = await axios(options)
         if (response.data.success) {
-            return NextResponse.redirect('http://localhost:3000', {
+            return NextResponse.redirect(baseUrl, {
                 status: 301
             })
         }
-        return NextResponse.redirect('http://localhost:3000/failed', {
+        return NextResponse.redirect(`${baseUrl}/failed`, {
             status: 301
         })
     } catch (err) {
