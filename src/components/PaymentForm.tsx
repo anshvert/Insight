@@ -18,7 +18,7 @@ const PaymentForm: React.FC<PaymentFormProps> = ({ onPaymentSuccess }) => {
         setLoading(true);
 
         try {
-            const response = await axios.post('http://localhost:3000/api/order', {
+            const response = await axios.post('/api/order', {
                 name,
                 mobile,
                 amount: parseFloat(amount),
