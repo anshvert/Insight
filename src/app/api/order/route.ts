@@ -8,20 +8,22 @@ const merchant_id = "PGTESTPAYUAT86";
 export async function POST(req: any) {
     try {
         const reqData = await req.json();
-        console.log('Request data:', reqData);
 
         if (!reqData.transactionId || !reqData.amount || !reqData.mobile || !reqData.name) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
+        const host = req.headers.get('host') || 'localhost:3000'
+        const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+        const baseUrl = `${protocol}://${host}`;
         const data = {
             merchantId: merchant_id,
             merchantTransactionId: reqData.transactionId,
             name: reqData.name,
             amount: Math.round(reqData.amount * 100), // Ensure integer
             mobileNumber: reqData.mobile,
-            redirectUrl: `http://localhost:3000/api/status?id=${reqData.transactionId}`,
-            callbackUrl: `http://localhost:3000/api/status?id=${reqData.transactionId}`,
+            redirectUrl: `${baseUrl}/api/status?id=${reqData.transactionId}`,
+            callbackUrl: `${baseUrl}/api/status?id=${reqData.transactionId}`,
             redirectMode: 'POST',
             paymentInstrument: {
                 type: 'PAY_PAGE'
