@@ -19,6 +19,7 @@ export type Model = {
     name: string
     display_name: string
     isAvailable?: boolean
+    premium: boolean
 }
 
 export default function Home() {
@@ -91,7 +92,6 @@ export default function Home() {
         setMessages((prev) => [...prev, userMessage]);
         setInputText("");
         setIsLoading(true);
-        console.log(currentModel)
         const completion = await openai.chat.completions.create({
             model: currentModel?.name as string,
             messages: [
@@ -189,6 +189,7 @@ export default function Home() {
                             currentModel={currentModel}
                             onModelChange={handleModelChange}
                             models={aiModels}
+                            isPremiumUser={false}
                         />
                         <ChatBox onSend={handleSendMessage} inputText={inputText} setInputText={setInputText} />
                     </div>
