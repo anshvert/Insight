@@ -44,7 +44,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ currentModel, onModelChan
                             <span className="text-sm font-semibold">Unlock Premium Models</span>
                             <Link href="/payment">
                                 <button className="px-3 py-1 bg-white text-blue-600 text-sm font-semibold rounded-md hover:bg-gray-200 transition">
-                                    Buy Premium 0.99$
+                                    Buy Premium
                                 </button>
                             </Link>
                         </div>

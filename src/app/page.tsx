@@ -16,11 +16,19 @@ export default function LandingPage() {
                 <p className="mt-4 text-lg md:text-xl text-gray-300 max-w-2xl">
                     A personalized LLM interface to chat with AI models tailored to your needs. Upgrade to premium for advanced models.
                 </p>
-                <Link href="/chat">
-                    <button className="mt-6 px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-md text-white font-semibold hover:from-blue-700 hover:to-purple-700 transition">
-                        Get Started
-                    </button>
-                </Link>
+                {/* Buttons Section */}
+                <div className="mt-6 flex flex-col md:flex-row items-center gap-4">
+                    <Link href="/chat">
+                        <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-md text-white font-semibold hover:from-blue-700 hover:to-purple-700 transition">
+                            Get Started
+                        </button>
+                    </Link>
+                    <Link href="/pricing">
+                        <button className="px-8 py-3 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition">
+                            View Pricing
+                        </button>
+                    </Link>
+                </div>
             </section>
 
             {/* Features Section */}
@@ -48,7 +56,9 @@ export default function LandingPage() {
                 <div className="mt-2">
                     <Link href="/privacy" className="text-blue-400 hover:underline">Privacy Policy</Link> •
                     <Link href="/terms" className="text-blue-400 hover:underline ml-2">Terms of Service</Link> •
-                    <a href="https://github.com/your-username/insight" className="text-blue-400 hover:underline ml-2">GitHub</a>
+                    <Link href="/refund" className="text-blue-400 hover:underline ml-2">Refund Policy</Link> •
+                    <Link href="/pricing" className="text-blue-400 hover:underline ml-2">Pricing</Link> •
+                    <a href="https://github.com/anshvert/Insight" className="text-blue-400 hover:underline ml-2">GitHub</a>
                 </div>
             </footer>
         </div>

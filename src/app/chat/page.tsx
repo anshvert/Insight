@@ -47,8 +47,8 @@ export default function Home() {
                 if (session.user.email) {
                     await getUserChats(session.user.email)
                 }
-                await getAIModels()
             }
+            await getAIModels()
         }
         const getUserChats = async (email: string) => {
             const chats = await getChats(email)
@@ -108,18 +108,20 @@ export default function Home() {
         };
         setMessages((prev) => [...prev, botMessage]);
         setIsLoading(false);
-        await createBulkChats([
-            {
-                user_email: userInfo?.email as string,
-                isBot: false,
-                message: userMessage.text,
-            },
-            {
-                user_email: userInfo?.email as string,
-                isBot: true,
-                message: botMessage.text,
-            }
-        ])
+        if (isLoggedIn) {
+            await createBulkChats([
+                {
+                    user_email: userInfo?.email as string,
+                    isBot: false,
+                    message: userMessage.text,
+                },
+                {
+                    user_email: userInfo?.email as string,
+                    isBot: true,
+                    message: botMessage.text,
+                }
+            ])
+        }
     }
 
     const handleModelChange = (model: Model) => {
