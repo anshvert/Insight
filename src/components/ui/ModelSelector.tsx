@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Model } from "@/app/page";
+import { Model } from "@/app/chat/page";
 import { LockClosedIcon } from '@heroicons/react/24/solid'; // For the lock icon
 import Link from 'next/link';
 
