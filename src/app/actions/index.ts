@@ -4,7 +4,7 @@ import { auth, signIn, signOut } from "@/lib/auth";
 
 export async function doSocialLogin(formData: any): Promise<void> {
     const action = formData.get('action')
-    return await signIn(action, { redirectTo: "/" })
+    return await signIn(action, { redirectTo: "/chat/" })
 }
 
 export async function getSession() {
