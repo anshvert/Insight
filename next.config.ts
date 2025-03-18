@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
     env: {
         googleProviderId: process.env.GOOGLE_CLIENT_ID,
         googleProviderSecret: process.env.GOOGLE_CLIENT_SECRET,
-        githubProviderId: process.env.GITHUB_CLIENT_ID,
-        githubProviderSecret: process.env.GITHUB_CLIENT_SECRET,
+        githubProviderId: process.env.NODE_ENV == "production" ? process.env.GITHUB_CLIENT_ID_PROD : process.env.GITHUB_CLIENT_ID,
+        githubProviderSecret: process.env.NODE_ENV == "production" ? process.env.GITHUB_CLIENT_SECRET_PROD : process.env.GITHUB_CLIENT_SECRET,
     },
     images: {
         remotePatterns: [

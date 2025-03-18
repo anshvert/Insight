@@ -40,46 +40,46 @@ export default function Home() {
 
     useEffect(() => {
         const getSessionInfo = async () => {
-            const session = await getSession()
+            const session = await getSession();
             if (session && session.user) {
-                setUserInfo(session.user)
-                setIsLoggedIn(true)
+                setUserInfo(session.user);
+                setIsLoggedIn(true);
                 if (session.user.email) {
-                    await getUserChats(session.user.email)
+                    await getUserChats(session.user.email);
                 }
             }
-            await getAIModels()
-        }
+            await getAIModels();
+        };
         const getUserChats = async (email: string) => {
-            const chats = await getChats(email)
-            let messageChats: Message[] = []
+            const chats = await getChats(email);
+            let messageChats: Message[] = [];
             for (let chat of chats) {
                 messageChats.push({
                     id: chat.id,
                     text: chat.message,
-                    sender: chat.is_bot ? 'assistant' : 'user'
-                })
+                    sender: chat.is_bot ? "assistant" : "user",
+                });
             }
-            setMessages(messageChats)
-        }
+            setMessages(messageChats);
+        };
         const getAIModels = async () => {
-            const models = await getModels()
-            setAiModels(models)
-            setCurrentModel(models[0])
-        }
-        getSessionInfo()
+            const models = await getModels();
+            setAiModels(models);
+            setCurrentModel(models[0]);
+        };
+        getSessionInfo();
     }, []);
 
     const handleSignIn = () => {
-        redirect("/login")
-    }
+        redirect("/login");
+    };
 
     const handleSignOut = () => {
         setUserInfo(null);
         setIsLoggedIn(false);
         setMessages([]);
-        SignOut()
-    }
+        SignOut();
+    };
 
     const handleSendMessage = async () => {
         if (!inputText.trim()) return;
@@ -92,6 +92,17 @@ export default function Home() {
         setMessages((prev) => [...prev, userMessage]);
         setInputText("");
         setIsLoading(true);
+
+        // Add welcome message if this is the first message
+        if (messages.length === 0) {
+            const welcomeMessage: Message = {
+                id: Date.now() - 1,
+                text: "Welcome to Insight! I'm here to help you with your questions. Select a model and start chatting!",
+                sender: "assistant",
+            };
+            setMessages((prev) => [welcomeMessage, ...prev]);
+        }
+
         const completion = await openai.chat.completions.create({
             model: currentModel?.name as string,
             messages: [
@@ -119,15 +130,14 @@ export default function Home() {
                     user_email: userInfo?.email as string,
                     isBot: true,
                     message: botMessage.text,
-                }
-            ])
+                },
+            ]);
         }
-    }
+    };
 
     const handleModelChange = (model: Model) => {
-        setCurrentModel(model)
-        // setModelName()
-    }
+        setCurrentModel(model);
+    };
 
     return (
         <div className="flex flex-col h-screen bg-background text-white">
@@ -154,49 +164,86 @@ export default function Home() {
                 </div>
             </header>
 
-            <div className="flex-1 overflow-y-auto p-4 bg-background">
-                <div className="w-full max-w-3xl mx-auto space-y-4">
-                    {messages.map((message) => (
-                        <div
-                            key={message.id}
-                            className={`flex ${
-                                message.sender === "user" ? "justify-end" : "justify-start"
-                            }`}
-                        >
-                            <div
-                                className={`max-w-[70%] p-3 rounded-lg ${
-                                    message.sender === "user"
-                                        ? "bg-blue-500 text-white"
-                                        : "bg-gray-700 text-white"
-                                }`}
-                            >
-                                {message.text}
-                            </div>
+            {/* Conditional Rendering Based on Messages */}
+            {messages.length === 0 ? (
+                // Welcome Screen
+                <div className="flex-1 flex items-center justify-center p-4 bg-background">
+                    <div className="text-center max-w-xl">
+                        <h2 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                            Welcome to Insight!
+                        </h2>
+                        <p className="mb-6 text-gray-300">
+                            I'm here to help you with your questions. Select a model from the sidebar and start chatting!
+                        </p>
+                        <div className="flex justify-center">
+                            <ModelSelector
+                                currentModel={currentModel}
+                                onModelChange={handleModelChange}
+                                models={aiModels}
+                                isPremiumUser={false}
+                            />
+                            <ChatBox
+                                onSend={handleSendMessage}
+                                inputText={inputText}
+                                setInputText={setInputText}
+                            />
                         </div>
-                    ))}
-                    {isLoading && (
-                        <div className="flex justify-start">
-                            <div className="max-w-[70%] p-3 rounded-lg bg-gray-700 text-white">
-                                Processing...
-                            </div>
-                        </div>
-                    )}
-                    <div ref={messagesEndRef}/>
-                </div>
-            </div>
-            <div className="p-4 bg-background">
-                <div className="w-full max-w-3xl mx-auto">
-                    <div className="flex items-center space-x-2">
-                        <ModelSelector
-                            currentModel={currentModel}
-                            onModelChange={handleModelChange}
-                            models={aiModels}
-                            isPremiumUser={false}
-                        />
-                        <ChatBox onSend={handleSendMessage} inputText={inputText} setInputText={setInputText} />
                     </div>
                 </div>
-            </div>
+            ) : (
+                // Normal Chat Layout
+                <div className="flex-1 overflow-y-auto p-4 bg-textBackground">
+                    <div className="w-full max-w-3xl mx-auto space-y-4">
+                        {messages.map((message) => (
+                            <div
+                                key={message.id}
+                                className={`flex ${
+                                    message.sender === "user" ? "justify-end" : "justify-start"
+                                }`}
+                            >
+                                <div
+                                    className={`max-w-[70%] p-3 rounded-lg ${
+                                        message.sender === "user"
+                                            ? "bg-blue-500 text-white"
+                                            : "bg-gray-700 text-white"
+                                    }`}
+                                >
+                                    {message.text}
+                                </div>
+                            </div>
+                        ))}
+                        {isLoading && (
+                            <div className="flex justify-start">
+                                <div className="max-w-[70%] p-3 rounded-lg bg-gray-700 text-white">
+                                    Processing...
+                                </div>
+                            </div>
+                        )}
+                        <div ref={messagesEndRef} />
+                    </div>
+                </div>
+            )}
+
+            {/* Input Section (Always at Bottom for Non-Empty Messages) */}
+            {messages.length > 0 && (
+                <div className="p-4 bg-textBackground">
+                    <div className="w-full max-w-3xl mx-auto">
+                        <div className="flex items-center space-x-2">
+                            <ModelSelector
+                                currentModel={currentModel}
+                                onModelChange={handleModelChange}
+                                models={aiModels}
+                                isPremiumUser={false}
+                            />
+                            <ChatBox
+                                onSend={handleSendMessage}
+                                inputText={inputText}
+                                setInputText={setInputText}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
