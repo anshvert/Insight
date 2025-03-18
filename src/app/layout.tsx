@@ -14,8 +14,33 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Insight",
-  description: "All in One LLM Interface",
+    title: 'Insight - Your Personalized LLM Interface',
+    description: 'A personalized LLM interface to chat with AI models tailored to your needs. Upgrade to premium for advanced models.',
+    icons: [
+        { rel: 'icon', url: '/favicon.ico' }, // Main favicon
+    ],
+    openGraph: {
+        title: 'Insight - Your Personalized LLM Interface',
+        description: 'A personalized LLM interface to chat with AI models tailored to your needs. Upgrade to premium for advanced models.',
+        url: 'https://insightsai.tech/',
+        siteName: 'Insight',
+        images: [
+            {
+                url: 'https://insightsai.tech/Insight.png',
+                width: 800,
+                height: 600,
+                alt: 'Insight Logo',
+            },
+        ],
+        locale: 'en_US',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Insight - Your Personalized LLM Interface',
+        description: 'A personalized LLM interface to chat with AI models tailored to your needs. Upgrade to premium for advanced models.',
+        images: ['https://insightsai.tech/Insight.png'],
+    },
 };
 
 export default function RootLayout({
