@@ -57,8 +57,7 @@ export default function LandingPage() {
                     <Link href="/privacy" className="text-blue-400 hover:underline">Privacy Policy</Link> •
                     <Link href="/terms" className="text-blue-400 hover:underline ml-2">Terms of Service</Link> •
                     <Link href="/refund" className="text-blue-400 hover:underline ml-2">Refund Policy</Link> •
-                    <Link href="/pricing" className="text-blue-400 hover:underline ml-2">Pricing</Link> •
-                    <a href="https://github.com/anshvert/Insight" className="text-blue-400 hover:underline ml-2">GitHub</a>
+                    <Link href="/pricing" className="text-blue-400 hover:underline ml-2">Pricing</Link>
                 </div>
             </footer>
         </div>

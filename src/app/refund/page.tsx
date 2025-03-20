@@ -4,7 +4,7 @@ export default function RefundPolicy() {
             <div className="max-w-3xl mx-auto">
                 <h1 className="text-4xl font-bold text-center mb-6">Refund Policy</h1>
                 <p className="mb-4 text-gray-300">
-                    Last Updated: March 17, 2025
+                    Last Updated: March 20, 2025
                 </p>
                 <p className="mb-4">
                     At Insight, we want you to be satisfied with your subscription to our premium AI models. If you’re not happy, we offer a refund under the following conditions.
@@ -22,7 +22,8 @@ export default function RefundPolicy() {
 
                 <h2 className="text-2xl font-semibold mb-2">3. What Happens After a Refund</h2>
                 <p className="mb-4">
-                    Once a refund is processed, you will lose access to premium AI models. Your chat history will remain accessible, but you’ll be downgraded to the free plan.
+                    If your request is accepted, the amount will be credited to your original payment method in 10 to 12 days &
+                    you will lose access to premium AI models. Your chat history will remain accessible, but you’ll be downgraded to the free plan.
                 </p>
 
                 <h2 className="text-2xl font-semibold mb-2">4. Non-Refundable Cases</h2>
