@@ -72,7 +72,7 @@ export default function PrivacyPolicy() {
 
                 <h2 className="text-2xl font-semibold mb-2">8. Contact Us</h2>
                 <p className="mb-4">
-                    If you have questions about this Privacy Policy, contact us at anshtyagi2222@gmail.com.
+                    If you have questions about this Privacy Policy, contact us at anshtyagi2222@gmail.com or make a call at +916397444722.
                 </p>
             </div>
         </div>
