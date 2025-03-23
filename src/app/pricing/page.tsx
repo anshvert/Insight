@@ -12,7 +12,7 @@ export default function PricingPage() {
                         <p className="text-3xl font-bold mb-4">₹0</p>
                         <p className="text-gray-400 mb-6">Get started with basic AI models.</p>
                         <ul className="text-left mb-6 space-y-2">
-                            <li>✔ Access to Deep Seek model</li>
+                            <li>✔ Access to Gemini 2.0 Flash</li>
                             <li>✔ 10 chats per day</li>
                             <li>✔ Basic chat history storage</li>
                         </ul>
@@ -29,7 +29,7 @@ export default function PricingPage() {
                         <p className="text-3xl font-bold mb-4">₹1,499 <span className="text-lg font-normal">one-time</span></p>
                         <p className="text-gray-400 mb-6">Unlock more AI models for better insights.</p>
                         <ul className="text-left mb-6 space-y-2">
-                            <li>✔ Access to Gemini 2.0 Flash</li>
+                            <li>✔ Access to Deep Seek R1</li>
                             <li>✔ 50 chats per day</li>
                             <li>✔ Extended chat history storage</li>
                             <li>✔ Email support</li>
