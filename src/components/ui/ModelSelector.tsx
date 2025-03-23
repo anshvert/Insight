@@ -42,7 +42,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ currentModel, onModelChan
                     <li className="p-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-t-md border-b border-gray-600">
                         <div className="flex justify-between items-center">
                             <span className="text-sm font-semibold">Unlock Premium Models</span>
-                            <Link href="/payment">
+                            <Link href="/pricing"   >
                                 <button className="px-3 py-1 bg-white text-blue-600 text-sm font-semibold rounded-md hover:bg-gray-200 transition">
                                     Buy Premium
                                 </button>

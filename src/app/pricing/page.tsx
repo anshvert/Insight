@@ -26,7 +26,7 @@ export default function PricingPage() {
                     {/* Basic Plan */}
                     <div className="bg-gray-800 p-6 rounded-lg text-center relative">
                         <h2 className="text-2xl font-semibold mb-4">Basic Plan</h2>
-                        <p className="text-3xl font-bold mb-4">₹499 <span className="text-lg font-normal">one-time</span></p>
+                        <p className="text-3xl font-bold mb-4">₹1,499 <span className="text-lg font-normal">one-time</span></p>
                         <p className="text-gray-400 mb-6">Unlock more AI models for better insights.</p>
                         <ul className="text-left mb-6 space-y-2">
                             <li>✔ Access to Gemini 2.0 Flash</li>
@@ -44,10 +44,10 @@ export default function PricingPage() {
                     {/* Premium Plan */}
                     <div className="bg-gray-800 p-6 rounded-lg text-center">
                         <h2 className="text-2xl font-semibold mb-4">Premium Plan</h2>
-                        <p className="text-3xl font-bold mb-4">₹999 <span className="text-lg font-normal">one-time</span></p>
+                        <p className="text-3xl font-bold mb-4">₹2,999 <span className="text-lg font-normal">one-time</span></p>
                         <p className="text-gray-400 mb-6">Full access to all AI models with priority support.</p>
                         <ul className="text-left mb-6 space-y-2">
-                            <li>✔ Access to all models (e.g., Gemini 2.0 Pro)</li>
+                            <li>✔ Access to all models (e.g., Mistral AI, Olympic Coder)</li>
                             <li>✔ Unlimited chats</li>
                             <li>✔ Unlimited chat history storage</li>
                             <li>✔ Priority email support</li>
@@ -61,7 +61,7 @@ export default function PricingPage() {
                 </div>
 
                 <p className="text-center text-gray-400 mt-12">
-                    Need a custom plan? Contact us at <a href="mailto:ansh@insightai.com" className="text-blue-400 hover:underline">ansh@insightai.com</a>.
+                    Need a custom plan? Contact us at <a href="mailto:anshtyagi2222@gmail.com" className="text-blue-400 hover:underline">ansh@insightai.com</a>.
                 </p>
             </div>
         </div>
