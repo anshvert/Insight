@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import axios from "axios";
 
-const salt_key = '96434309-7796-489d-8924-ab56988a6076';
-const merchant_id = "PGTESTPAYUAT86";
+const salt_key = process.env.NODE_ENV == "production" ? process.env.PAYMENT_GATEWAY_SALT : '96434309-7796-489d-8924-ab56988a6076';
+const merchant_id = process.env.NODE_ENV == "production" ? process.env.PAYMENT_GATEWAY_MERCHANT : "PGTESTPAYUAT86";
 
 export async function POST(req: any) {
     try {
