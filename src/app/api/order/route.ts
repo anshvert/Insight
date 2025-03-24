@@ -37,7 +37,7 @@ export async function POST(req: any) {
         const sha256 = crypto.createHash("sha256").update(string).digest("hex");
         const checkSum = sha256 + '###' + keyIndex;
 
-        const test_URL = 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay';
+        const test_URL = process.env.NODE_ENV == 'production' ? 'https://api.phonepe.com/pg/v1/pay' : 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay';
         const options = {
             method: 'POST',
             url: test_URL,

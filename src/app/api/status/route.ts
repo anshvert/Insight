@@ -2,8 +2,8 @@ import crypto from "crypto";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
-const salt_key = '96434309-7796-489d-8924-ab56988a6076';
-const merchant_id = "PGTESTPAYUAT86";
+const salt_key = process.env.NODE_ENV == "production" ? process.env.PAYMENT_GATEWAY_SALT : '96434309-7796-489d-8924-ab56988a6076';
+const merchant_id = process.env.NODE_ENV == "production" ? process.env.PAYMENT_GATEWAY_MERCHANT : "PGTESTPAYUAT86";
 
 export async function POST(req: any) {
     try {
@@ -19,9 +19,11 @@ export async function POST(req: any) {
         const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
         const baseUrl = `${protocol}://${host}`;
 
+        const test_URL = process.env.NODE_ENV == 'production' ? 'https://api.phonepe.com/pg/v1/status' : 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status'
+
         const options = {
             method: 'GET',
-            url: `https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/${merchant_id}/${merchantTransactionId}`,
+            url: `${test_URL}/${merchant_id}/${merchantTransactionId}`,
             headers: {
                 accept: 'application/json',
                 'Content-Type': 'application/json',
