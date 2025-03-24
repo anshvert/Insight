@@ -30,6 +30,8 @@ export async function POST(req: any) {
             }
         };
 
+        console.log("Data", data)
+
         const payload: string = JSON.stringify(data);
         const payloadMain: string = Buffer.from(payload).toString('base64');
         const keyIndex = 1;
@@ -52,6 +54,8 @@ export async function POST(req: any) {
             }
         };
 
+        console.log("options", options);
+
         const response = await axios(options);
 
         return NextResponse.json({
@@ -59,6 +63,7 @@ export async function POST(req: any) {
             transactionId: reqData.transactionId
         });
     } catch (error: any) {
+        console.error(error)
         return NextResponse.json({ error: error.response?.data || 'Payment failed' }, { status: 500 });
     }
 }
