@@ -1,26 +1,28 @@
-"use client"
-import { useState, useRef, useEffect } from "react";
+"use client";
+import React, { useState, useRef, useEffect } from "react";
 import { openai } from "@/lib/openRouter";
-import { ChatBox } from "@/components/ui/chatBox"
+import { ChatBox } from "@/components/ui/chatBox";
 import { getSession, SignOut } from "@/app/actions";
 import { User } from "next-auth";
 import { redirect } from "next/navigation";
 import { createBulkChats, getChats } from "@/app/db/chats";
 import ModelSelector from "@/components/ui/ModelSelector";
 import { getModels } from "@/app/db/models";
+import ReactMarkdown from "react-markdown"
+import rehypeHighlight from "rehype-highlight";
 
 type Message = {
-    id: number
-    text: string
+    id: number;
+    text: string;
     sender: "user" | "assistant";
 };
 
 export type Model = {
-    name: string
-    display_name: string
-    isAvailable?: boolean
-    premium: boolean
-}
+    name: string;
+    display_name: string;
+    isAvailable?: boolean;
+    premium: boolean;
+};
 
 export default function Home() {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -31,6 +33,12 @@ export default function Home() {
     const [aiModels, setAiModels] = useState<Model[]>([]);
     const [currentModel, setCurrentModel] = useState<Model | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    // const MemoizedMarkdown = React.memo(({ text }) => (
+    //     <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+    //         {text}
+    //     </ReactMarkdown>
+    // ), (prevProps, nextProps) => prevProps.text === nextProps.text);
 
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -103,21 +111,33 @@ export default function Home() {
             setMessages((prev) => [welcomeMessage, ...prev]);
         }
 
-        const completion = await openai.chat.completions.create({
-            model: currentModel?.name as string,
-            messages: [
-                {
-                    role: userMessage.sender,
-                    content: userMessage.text,
-                },
-            ],
-        });
+        // Start streaming response
         const botMessage: Message = {
             id: Date.now() + 1,
-            text: completion.choices[0].message.content || "Server is busy !!",
+            text: "",
             sender: "assistant",
         };
         setMessages((prev) => [...prev, botMessage]);
+
+        let fullResponse = "";
+        const stream = await openai.chat.completions.create({
+            model: currentModel?.name as string,
+            messages: [
+                { role: "user", content: userMessage.text },
+            ],
+            stream: true, // Enable streaming
+        });
+
+        for await (const chunk of stream) {
+            const content = chunk.choices[0]?.delta?.content || "";
+            fullResponse += content;
+            setMessages((prev) => {
+                const newMessages = [...prev];
+                newMessages[newMessages.length - 1].text = fullResponse;
+                return newMessages;
+            });
+        }
+
         setIsLoading(false);
         if (isLoggedIn) {
             await createBulkChats([
@@ -129,7 +149,7 @@ export default function Home() {
                 {
                     user_email: userInfo?.email as string,
                     isBot: true,
-                    message: botMessage.text,
+                    message: fullResponse,
                 },
             ]);
         }
@@ -202,20 +222,23 @@ export default function Home() {
                                 }`}
                             >
                                 <div
-                                    className={`max-w-[70%] p-3 rounded-lg ${
+                                    className={`p-3 rounded-xl ${
                                         message.sender === "user"
-                                            ? "bg-blue-500 text-white"
-                                            : "bg-gray-700 text-white"
+                                            ? "max-w-[70%] bg-gray-700 text-white"
+                                            : "w-full text-white mx-4 text-left"
                                     }`}
                                 >
+                                    {/*<MemoizedMarkdown>*/}
+                                    {/*    {message.text}*/}
+                                    {/*</MemoizedMarkdown>*/}
                                     {message.text}
                                 </div>
                             </div>
                         ))}
                         {isLoading && (
                             <div className="flex justify-start">
-                                <div className="max-w-[70%] p-3 rounded-lg bg-gray-700 text-white">
-                                    Processing...
+                                <div className="w-full p-3 rounded-xl text-white mx-4 text-left">
+                                    Thinking...
                                 </div>
                             </div>
                         )}
