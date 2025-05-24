@@ -60,7 +60,7 @@ A sleek payment page to upgrade to premium, featuring the Insight logo and a dyn
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/insight.git
+   git clone https://github.com/anshvert/insight.git
    cd insight
 2. Install dependencies:
     ```bash
