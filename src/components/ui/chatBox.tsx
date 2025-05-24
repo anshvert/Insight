@@ -56,32 +56,32 @@ const ChatBox = React.forwardRef<
 
     return (
         <div className="relative w-full">
-            <textarea
-                className={cn(
-                    "flex w-full rounded-lg border border-gray-300 bg-textBackground px-4 py-3 text-base shadow-sm transition-colors", // Base styles
-                    "placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 " +
-                    "focus-visible:ring-blue-500 focus-visible:ring-offset-2", // Focus and placeholder
-                    "disabled:cursor-not-allowed disabled:opacity-50 resize-none", // Disabled and no resize
-                    className
-                )}
-                ref={textareaRef}
-                placeholder="Ask Insight anything..."
-                rows={1}
-                onInput={handleInput}
-                onKeyDown={handleKeyDown}
-                value={inputText}
-                onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setInputText!(e.target.value)}
-                style={{
-                    minHeight: '60px',
-                    height: `${height}px`,
-                    overflowY: height >= maxHeight ? 'auto' : 'hidden'
-                }}
-                {...props}
-            />
+        <textarea
+            className={cn(
+                "flex w-full rounded-lg border border-gray-300 bg-textBackground px-4 py-3 text-base shadow-sm transition-colors", // Base styles
+                "placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 " +
+                "focus-visible:ring-blue-500 focus-visible:ring-offset-2", // Focus and placeholder
+                "disabled:cursor-not-allowed disabled:opacity-50 resize-none", // Disabled and no resize
+                className
+            )}
+            ref={textareaRef}
+            placeholder="Ask Insight anything..."
+            rows={1}
+            onInput={handleInput}
+            onKeyDown={handleKeyDown}
+            value={inputText}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setInputText!(e.target.value)}
+            style={{
+                minHeight: '60px',
+                height: `${height}px`,
+                overflowY: height >= maxHeight ? 'auto' : 'hidden'
+            }}
+            {...props}
+        />
 
             <button
                 onClick={onSend}
-                className="absolute right-3 bottom-3 p-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-blue-500 hover:bg-blue-600 text-white transition-colors"
                 aria-label="Send message"
             >
                 <svg

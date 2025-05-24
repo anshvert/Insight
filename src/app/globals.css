@@ -72,3 +72,119 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e1e1e; /* Very dark background */
+  border-radius: 6px; /* Slightly rounded corners */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5a5a5a; /* Dark grey thumb */
+  border-radius: 6px;
+  border: 3px solid #1e1e1e; /* Border to match track */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7a7a7a; /* Lighter on hover */
+}
+
+.llm-response-container {
+  font-family: 'Inter', sans-serif; /* Use a modern, readable font */
+  line-height: 1.6;
+  color: #ffffff;
+  max-width: 800px; /* Constrain width for better reading */
+  margin: 0 auto; /* Center the content */
+  padding: 2px;
+}
+
+.llm-response-container h1 {
+  font-size: 2.5em; /* Larger headings */
+  color: #1a202c; /* A darker, more prominent color */
+  margin-bottom: 0.8em;
+  border-bottom: 2px solid #eee; /* Subtle separator */
+  padding-bottom: 0.4em;
+}
+
+.llm-response-container h2 {
+  font-size: 2em;
+  color: #f1eeee;
+  margin-top: 1.5em;
+  margin-bottom: 0.6em;
+}
+
+.llm-response-container p {
+  margin-bottom: 1em;
+}
+
+.llm-response-container ul,
+.llm-response-container ol {
+  margin-left: 20px;
+  margin-bottom: 1em;
+}
+
+.llm-response-container li {
+  margin-bottom: 0.5em;
+}
+
+.llm-response-container strong {
+  font-weight: 700;
+  color: #fafafa;
+}
+
+.llm-response-container code {
+  background-color: #202122; /* Light grey for inline code */
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'Fira Code', monospace; /* Monospaced font for code */
+  font-size: 0.9em;
+  color: #899bc3; /* A different color for inline code */
+}
+
+.llm-response-container pre {
+  background-color: #2b2525; /* Dark background for code blocks */
+  color: #f8f8f2; /* Light text for code */
+  padding: 1em;
+  border-radius: 5px;
+  overflow-x: auto; /* Allow horizontal scrolling for wide code */
+  font-family: 'Fira Code', monospace;
+  font-size: 0.95em;
+  line-height: 1.4;
+  margin-bottom: 1.5em;
+  scrollbar-width: thin; /* 'auto' or 'thin' */
+  scrollbar-color: #7a7a7a #3c3c3c; /* thumb color track color */
+}
+
+/* WebKit Scrollbar (Chrome, Safari, newer Edge) */
+.llm-response-container pre::-webkit-scrollbar {
+  width: 10px;  /* For vertical scrollbar */
+  height: 10px; /* For horizontal scrollbar */
+}
+
+.llm-response-container pre::-webkit-scrollbar-track {
+  background: #2a2a2a; /* Darker track background */
+  border-radius: 10px;
+}
+
+.llm-response-container pre::-webkit-scrollbar-thumb {
+  background: #7a7a7a; /* Darker thumb color */
+  border-radius: 10px;
+  border: 2px solid #2a2a2a; /* Creates a visual "padding" around the thumb */
+}
+
+.llm-response-container pre::-webkit-scrollbar-thumb:hover {
+  background: #9a9a9a; /* Slightly lighter on hover */
+}
+
+.llm-response-container pre code {
+  background-color: transparent; /* Don't double background for code inside pre */
+  padding: 0;
+  color: inherit; /* Inherit color from pre */
+}
+
+/* Optional: For syntax highlighting within pre blocks */
+/* You might integrate a library like Prism.js or Highlight.js */

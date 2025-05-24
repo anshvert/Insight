@@ -20,7 +20,7 @@ export default function LandingPage() {
                 <div className="mt-6 flex flex-col md:flex-row items-center gap-4">
                     <Link href="/chat">
                         <button className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 rounded-md text-white font-semibold hover:from-blue-700 hover:to-purple-700 transition">
-                            Get Started
+                            Try Insights
                         </button>
                     </Link>
                     <Link href="/pricing">

@@ -10,6 +10,7 @@ import ModelSelector from "@/components/ui/ModelSelector";
 import { getModels } from "@/app/db/models";
 import ReactMarkdown from "react-markdown"
 import rehypeHighlight from "rehype-highlight";
+import remarkGfm from "remark-gfm";
 
 type Message = {
     id: number;
@@ -33,12 +34,6 @@ export default function Home() {
     const [aiModels, setAiModels] = useState<Model[]>([]);
     const [currentModel, setCurrentModel] = useState<Model | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-
-    // const MemoizedMarkdown = React.memo(({ text }) => (
-    //     <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-    //         {text}
-    //     </ReactMarkdown>
-    // ), (prevProps, nextProps) => prevProps.text === nextProps.text);
 
     useEffect(() => {
         if (messagesEndRef.current) {
@@ -73,7 +68,7 @@ export default function Home() {
         const getAIModels = async () => {
             const models = await getModels();
             setAiModels(models);
-            setCurrentModel(models[0]);
+            setCurrentModel(models?.filter((model) => !model.premium)[0]);
         };
         getSessionInfo();
     }, []);
@@ -101,16 +96,6 @@ export default function Home() {
         setInputText("");
         setIsLoading(true);
 
-        // Add welcome message if this is the first message
-        if (messages.length === 0) {
-            const welcomeMessage: Message = {
-                id: Date.now() - 1,
-                text: "Welcome to Insight! I'm here to help you with your questions. Select a model and start chatting!",
-                sender: "assistant",
-            };
-            setMessages((prev) => [welcomeMessage, ...prev]);
-        }
-
         // Start streaming response
         const botMessage: Message = {
             id: Date.now() + 1,
@@ -125,9 +110,9 @@ export default function Home() {
             messages: [
                 { role: "user", content: userMessage.text },
             ],
-            stream: true, // Enable streaming
+            stream: true,
         });
-
+        setIsLoading(false); // Set Loading False when Streaming message starts
         for await (const chunk of stream) {
             const content = chunk.choices[0]?.delta?.content || "";
             fullResponse += content;
@@ -158,6 +143,18 @@ export default function Home() {
     const handleModelChange = (model: Model) => {
         setCurrentModel(model);
     };
+
+    function LLMResponseDisplay({ markdownContent }: { markdownContent: string }) {
+        return (
+            <div className="llm-response-container">
+                <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeHighlight]}
+                    children={markdownContent}
+                />
+            </div>
+        );
+    }
 
     return (
         <div className="flex flex-col h-screen bg-background text-white">
@@ -228,17 +225,15 @@ export default function Home() {
                                             : "w-full text-white mx-4 text-left"
                                     }`}
                                 >
-                                    {/*<MemoizedMarkdown>*/}
-                                    {/*    {message.text}*/}
-                                    {/*</MemoizedMarkdown>*/}
-                                    {message.text}
+                                    { message.sender === "user" ? message.text : LLMResponseDisplay({ markdownContent: message.text }) }
                                 </div>
                             </div>
                         ))}
                         {isLoading && (
                             <div className="flex justify-start">
-                                <div className="w-full p-3 rounded-xl text-white mx-4 text-left">
-                                    Thinking...
+                                <div className="w-full p-3 rounded-xl text-white mx-4 text-left flex items-center">
+                                    <div className="w-6 h-6 border-4 border-t-transparent border-blue-500 rounded-full animate-spin mr-3"></div>
+                                    {/*<span>Thinking...</span>*/}
                                 </div>
                             </div>
                         )}

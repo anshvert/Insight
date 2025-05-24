@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react';
 import { Model } from "@/app/chat/page";
-import { LockClosedIcon } from '@heroicons/react/24/solid'; // For the lock icon
+import { LockClosedIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 
 interface ModelSelectorProps {
     currentModel: Model | null;
     onModelChange: (model: Model) => void;
     models: Model[];
-    isPremiumUser: boolean; // New prop to track user subscription status
+    isPremiumUser: boolean;
 }
 
 const ModelSelector: React.FC<ModelSelectorProps> = ({ currentModel, onModelChange, models, isPremiumUser }) => {
@@ -26,7 +26,6 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ currentModel, onModelChan
 
     return (
         <div className="relative inline-block">
-            {/* Trigger Button */}
             <button
                 onClick={handleToggle}
                 className="flex items-center gap-2 px-4 py-2 bg-textBackground text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -44,7 +43,7 @@ const ModelSelector: React.FC<ModelSelectorProps> = ({ currentModel, onModelChan
                             <span className="text-sm font-semibold">Unlock Premium Models</span>
                             <Link href="/pricing"   >
                                 <button className="px-3 py-1 bg-white text-blue-600 text-sm font-semibold rounded-md hover:bg-gray-200 transition">
-                                    Buy Premium
+                                    Upgrade
                                 </button>
                             </Link>
                         </div>
